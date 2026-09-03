@@ -7,8 +7,8 @@
     "start": "node app.js"
   },
   "dependencies": {
-    "@builderbot/bot": "^1.4.2",
-    "@builderbot/database": "^1.4.2",
-    "@builderbot/provider": "^1.4.2"
+    "@builderbot/bot": "latest",
+    "@builderbot/provider-baileys": "latest",
+    "@builderbot/database-memory": "latest"
   }
 }
