@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "@builderbot/bot": "^1.4.2",
-    "@builderbot/database-memory": "^1.4.2",
-    "@builderbot/provider-baileys": "^1.4.2"
+    "@builderbot/database": "^1.4.2",
+    "@builderbot/provider": "^1.4.2"
   }
 }
