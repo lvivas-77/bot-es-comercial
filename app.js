@@ -1,7 +1,7 @@
 import bot from '@builderbot/bot'
 const { createBot, createProvider, createFlow, addKeyword } = bot
-import BaileysProvider from '@builderbot/bot/dist/providers/baileys/index.js'
-import MemoryDB from '@builderbot/bot/dist/databases/memory/index.js'
+import BaileysProvider from '@builderbot/bot/dist/providers/baileys/index.cjs'
+import MemoryDB from '@builderbot/bot/dist/databases/memory/index.cjs'
 
 const URL_ASESOR = 'https://whatsapp.com'
 
