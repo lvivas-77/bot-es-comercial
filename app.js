@@ -154,15 +154,18 @@ const flujoBienvenida = addKeyword(['hola', 'buenos dias', 'buenas tardes', 'pau
 const main = async () => {
     const adapterDB = new MemoryDB()
     const adapterFlow = createFlow([flujoBienvenida, flujoSalir, flujoAsesorDirecto])
-    const adapterProvider = createProvider(BaileysProvider, {
-        port: process.env.PORT || 10000 // Abre el puerto que exige Render
-    })
+    const adapterProvider = createProvider(BaileysProvider)
 
-    createBot({
+    const botInstance = await createBot({
         flow: adapterFlow,
         provider: adapterProvider,
         database: adapterDB,
     })
+
+    // 🚀 ESTA ES LA LÍNEA MÁGICA: Levanta el puerto 10000 exigido por Render
+    if (adapterProvider.initHttpServer) {
+        adapterProvider.initHttpServer(process.env.PORT || 10000)
+    }
 }
 
 main()
