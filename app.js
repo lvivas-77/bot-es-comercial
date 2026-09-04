@@ -162,9 +162,14 @@ const main = async () => {
         database: adapterDB,
     })
 
-    // 🚀 ESTA ES LA LÍNEA MÁGICA: Levanta el puerto 10000 exigido por Render
+    // 🚀 ESTE ES EL GOLPE DE GRACIA: Abre la ruta raíz que Render visita para quitar el "Loading"
     if (adapterProvider.initHttpServer) {
         adapterProvider.initHttpServer(process.env.PORT || 10000)
+        
+        // Le responde "OK" a Render para habilitar la pantalla web
+        adapterProvider.server.get('/', (req, res) => {
+            res.send('ES Comercial Bot Activo')
+        })
     }
 }
 
