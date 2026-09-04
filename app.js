@@ -154,7 +154,9 @@ const flujoBienvenida = addKeyword(['hola', 'buenos dias', 'buenas tardes', 'pau
 const main = async () => {
     const adapterDB = new MemoryDB()
     const adapterFlow = createFlow([flujoBienvenida, flujoSalir, flujoAsesorDirecto])
-    const adapterProvider = createProvider(BaileysProvider)
+    const adapterProvider = createProvider(BaileysProvider, {
+        port: process.env.PORT || 10000 // Abre el puerto que exige Render
+    })
 
     createBot({
         flow: adapterFlow,
