@@ -1,5 +1,6 @@
 import { createBot, createProvider, createFlow, addKeyword, MemoryDB } from '@builderbot/bot'
 import { BaileysProvider } from '@builderbot/provider-baileys'
+import QRCode from 'qrcode'
 
 const URL_ASESOR = 'https://whatsapp.com'
 
@@ -38,28 +39,25 @@ const flujoPlanLite = addKeyword(['1', 'lite', 'plan lite'])
         '- *Precio por pauta:* *$20.000 COP*',
         '',
         '🚀 *¡Haz que tus vecinos te compren a ti y no a la competencia!*',
-        '¿Tienes un negocio y quieres atraer clientes que realmente vivan o transiten cerca de tu establecimiento? Con nuestras pautas publicitarias hiperlocales, llevamos tu oferta directamente al teléfono de las personas de tu localidad.',
+        'Con nuestras pautas publicitarias hiperlocales, llevamos tu oferta directamente al teléfono de las personas de tu localidad.',
         '',
         '📲 *PLAN LITE (Ideal para empezar a vender hoy mismo)*',
         '• *Alcance:* 200 contactos directos en tu localidad.',
-        '• *Mensaje:* 160 caracteres (efectivo, directo y al grano).',
-        '• *Inversión: Solo $20.000 COP por pauta.*',
+        '• *Mensaje:* 160 caracteres.',
+        '• *Inversión:* Solo $20.000 COP por pauta.',
         '',
         '🎯 *¿Por qué funciona?*',
-        '- No malgastas dinero mostrando tu publicidad a personas al otro lado de la ciudad.',
         '- Llegamos exactamente al público que puede caminar o pedir domicilio a tu local.',
         '- Resultados inmediatos con una inversión súper baja.',
         '',
-        '💡 ¡Llega a *200 clientes potenciales* de tu zona por solo *$20.000 COP*!',
-        '',
-        '📌 *Horario permitido de envío de mensajes:*',
+        '📌 *Horario permitido de envío:*',
         '- *Lunes a viernes:* 8:00 AM a 6:00 PM',
         '- *Sábado:* 9:00 AM a 2:00 PM',
         '',
         '¿Estás seguro de la compra del *Plan LITE*?',
         'Responde *Si* para continuar y ser transferido a un asesor.',
         'Recuerda: escribe *Volver* para regresar al menú o *Salir* para terminar.'
-    ], null, null, [flujoTransferenciaAsesor])
+    ], null, null, [flujoTransferenciaAsesor, flujoSalir])
 
 const flujoPlanSmart = addKeyword(['2', 'smart', 'plan smart'])
     .addAnswer([
@@ -69,28 +67,21 @@ const flujoPlanSmart = addKeyword(['2', 'smart', 'plan smart'])
         '- *Precio por pauta:* *$50.000 COP*',
         '',
         '🔥 *¡Multiplica tus ventas locales y domina tu zona!*',
-        'Si quieres que más vecinos conozcan tu negocio, el *Plan SMART* está diseñado para darle un impulso real a tu establecimiento llevando tu mensaje directamente al celular de los clientes de tu localidad.',
+        'El *Plan SMART* está diseñado para darle un impulso real a tu establecimiento llevando tu mensaje directamente al celular de los clientes de tu localidad.',
         '',
         '📲 *PLAN SMART (El favorito para acelerar ventas)*',
-        '• *Alcance*: 500 contactos directos en tu localidad.',
-        '• *Mensaje*: 160 caracteres (directo, claro y con llamado a la acción).',
-        '• *Inversión: Solo $50.000 COP por pauta.*',
+        '• *Alcance:* 500 contactos directos en tu localidad.',
+        '• *Mensaje:* 160 caracteres.',
+        '• *Inversión:* Solo $50.000 COP por pauta.',
         '',
-        '💥 *¿Por qué elegir el Plan SMART?*',
-        '- *Más del doble de clientes:* Alcanza a 500 personas interesadas en tu zona de cobertura.',
-        '- *Publicidad hiperlocal:* Cero presupuesto desperdiciado; solo personas que realmente pueden comprarte hoy.',
-        '- *Alta conversión:* Llega directamente por mensajería a tus potenciales compradores.',
-        '',
-        '💡 *¡Haz que 500 vecinos conozcan tu local por solo $50.000 COP!*',
-        '',
-        '📌 *Horario permitido de envío de mensajes:*',
+        '📌 *Horario permitido de envío:*',
         '- *Lunes a viernes:* 8:00 AM a 6:00 PM',
         '- *Sábado:* 9:00 AM a 2:00 PM',
         '',
         '¿Estás seguro de la compra del *Plan SMART*?',
         'Responde *Si* para continuar y ser transferido a un asesor.',
         'Recuerda: escribe *Volver* para regresar al menú o *Salir* para terminar.'
-    ], null, null, [flujoTransferenciaAsesor])
+    ], null, null, [flujoTransferenciaAsesor, flujoSalir])
 
 const flujoPlanSmartPro = addKeyword(['3', 'smart pro', 'pro', 'plan smart pro'])
     .addAnswer([
@@ -100,28 +91,21 @@ const flujoPlanSmartPro = addKeyword(['3', 'smart pro', 'pro', 'plan smart pro']
         '- *Precio por pauta:* *$70.000 COP*',
         '',
         '👑 *¡El paquete perfecto para convencer, enamorar y vender!*',
-        '¿Tienes una oferta especial? El *Plan SMART PRO* te da el tamaño doble para comunicar todo de tu marca sin dejar nada por fuera.',
+        'Te da el doble de espacio para comunicar todo de tu marca sin dejar nada por fuera.',
         '',
         '📲 *Plan SMART PRO ⭐ (El más recomendado)*',
-        '• *Alcance:* 500 contactos directos en tu localidad.',
-        '• *Tamaño de mensaje:* 320 caracteres (¡El doble de espacio para incluir promociones y enlaces!).',
+        '• *Alcance:* 500 contactos directos.',
+        '• *Tamaño de mensaje:* 320 caracteres.',
         '• *Inversión:* $70.000 COP por pauta.',
         '',
-        '💎 *¿Por qué es el plan preferido por los comercios?*',
-        '- *Doble tamaño:* Puedes incluir información clara, horarios o enlaces a tu WhatsApp para comunicación directa.',
-        '- *Cobertura estratégica:* 500 vecinos clave de tu localidad recibirán una propuesta completa e imposible de ignorar.',
-        '- *Mayor tasa de conversión:* Un mensaje largo informa mejor.',
-        '',
-        '💡 *¡Comunica todo el poder de tu negocio a 500 clientes locales por solo $70.000 COP!*',
-        '',
-        '📌 *Horario permitido de envío de mensajes:*',
+        '📌 *Horario permitido de envío:*',
         '- *Lunes a viernes:* 8:00 AM a 6:00 PM',
         '- *Sábado:* 9:00 AM a 2:00 PM',
         '',
         '¿Estás seguro de la compra del *Plan SMART PRO*?',
         'Responde *Si* para continuar y ser transferido a un asesor.',
         'Recuerda: escribe *Volver* para regresar al menú o *Salir* para terminar.'
-    ], null, null, [flujoTransferenciaAsesor])
+    ], null, null, [flujoTransferenciaAsesor, flujoSalir])
 
 const flujoBienvenida = addKeyword(['hola', 'buenos dias', 'buenas tardes', 'pauta', 'inicio', 'volver', 'menu', 'menú'])
     .addAnswer([
@@ -153,7 +137,18 @@ const flujoBienvenida = addKeyword(['hola', 'buenos dias', 'buenas tardes', 'pau
 
 const main = async () => {
     const adapterDB = new MemoryDB()
-    const adapterFlow = createFlow([flujoBienvenida, flujoSalir, flujoAsesorDirecto])
+    
+    // REGISTRO GLOBAL DE FLUJOS: Todos los flujos principales deben estar aquí.
+    const adapterFlow = createFlow([
+        flujoBienvenida, 
+        flujoPlanLite, 
+        flujoPlanSmart, 
+        flujoPlanSmartPro, 
+        flujoTransferenciaAsesor, 
+        flujoAsesorDirecto, 
+        flujoSalir
+    ])
+    
     const adapterProvider = createProvider(BaileysProvider)
 
     const botInstance = await createBot({
@@ -162,13 +157,24 @@ const main = async () => {
         database: adapterDB,
     })
 
-    // 🚀 ESTE ES EL GOLPE DE GRACIA: Abre la ruta raíz que Render visita para quitar el "Loading"
+    // Servidor HTTP para Render/cPanel y renderización de QR
     if (adapterProvider.initHttpServer) {
-        adapterProvider.initHttpServer(process.env.PORT || 10000)
-        
-        // Le responde "OK" a Render para habilitar la pantalla web
+        const port = process.env.PORT || 10000
+        adapterProvider.initHttpServer(port)
+
+        // Ruta de salud de la aplicación
         adapterProvider.server.get('/', (req, res) => {
             res.send('ES Comercial Bot Activo')
+        })
+
+        // Ruta opcional para escanear QR desde navegador si la consola no soporta imágenes
+        adapterProvider.server.get('/qr', async (req, res) => {
+            const qrPath = `${process.cwd()}/bot.qr.png`
+            try {
+                res.sendFile(qrPath)
+            } catch (error) {
+                res.send('Código QR no generado aún o dispositivo ya vinculado.')
+            }
         })
     }
 }
